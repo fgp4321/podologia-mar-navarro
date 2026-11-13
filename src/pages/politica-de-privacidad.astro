@@ -1,0 +1,89 @@
+---
+import Legal from '../layouts/Legal.astro';
+import Pendiente from '../components/Pendiente.astro';
+import { negocio } from '../config/negocio';
+const d = negocio.direccion;
+---
+<Legal
+  titulo="Política de privacidad"
+  descripcion="Cómo trata Podología Mar Navarro los datos personales de quienes visitan este sitio web o contactan con la consulta."
+  actualizado="noviembre de 2026"
+>
+  <p>
+    Esta política explica cómo se tratan los datos personales en relación con este sitio web, conforme al
+    Reglamento (UE) 2016/679 (RGPD) y a la Ley Orgánica 3/2018 (LOPDGDD).
+  </p>
+
+  <h2>Responsable del tratamiento</h2>
+  <dl>
+    <dt>Responsable</dt>
+    <dd>{negocio.titular.nombreLegal} ({negocio.nombre})</dd>
+    <dt>NIF</dt>
+    <dd>{negocio.titular.nif}</dd>
+    <dt>Dirección</dt>
+    <dd>{d.calle}, {d.piso}. {d.codigoPostal} {d.localidad} ({d.provincia})</dd>
+    <dt>Teléfono</dt>
+    <dd>{negocio.telefono.visible}</dd>
+    <dt>Correo electrónico</dt>
+    <dd><Pendiente>dirección de correo electrónico para ejercer derechos</Pendiente></dd>
+  </dl>
+
+  <h2>Qué datos se tratan a través de este sitio web</h2>
+  <p>
+    Este sitio no tiene formularios, no permite registrarse y no utiliza herramientas de analítica ni de
+    publicidad. Por tanto, no recoge datos personales de quienes lo visitan.
+  </p>
+  <p>
+    Como cualquier sitio web, el proveedor de alojamiento puede registrar datos técnicos de las conexiones
+    (como la dirección IP, la fecha y la página solicitada) para garantizar la seguridad y el funcionamiento
+    del servicio. <Pendiente>nombre del proveedor de alojamiento y enlace a su política de privacidad</Pendiente>
+  </p>
+
+  <h2>Si contactas por teléfono o WhatsApp</h2>
+  <p>
+    Cuando llamas o escribes por WhatsApp, los datos que facilitas (como tu nombre, tu número de teléfono y el
+    motivo de la consulta) se utilizan para atender tu petición y gestionar tu cita.
+  </p>
+  <ul>
+    <li><strong>Finalidad:</strong> responder a tu consulta y gestionar las citas.</li>
+    <li>
+      <strong>Base jurídica:</strong> la aplicación de medidas precontractuales a petición tuya y, en su caso,
+      la prestación de la asistencia sanitaria.
+    </li>
+    <li>
+      <strong>Conservación:</strong> el tiempo necesario para atender la petición y, cuando exista relación
+      asistencial, durante los plazos que establece la normativa sanitaria.
+      <Pendiente>confirmar plazos de conservación con el asesor de protección de datos</Pendiente>
+    </li>
+    <li>
+      <strong>Destinatarios:</strong> no se ceden datos a terceros salvo obligación legal. WhatsApp es un
+      servicio de WhatsApp Ireland Limited, que trata los datos de las conversaciones según su propia política
+      de privacidad.
+    </li>
+  </ul>
+  <p>
+    Te recomendamos no enviar por WhatsApp información de salud detallada ni documentación médica: es
+    preferible comentarla en la consulta.
+  </p>
+  <p>
+    El tratamiento de los datos de salud de los pacientes en la consulta (historia clínica) se rige por la
+    información que se facilita en la propia consulta.
+    <Pendiente>validar este apartado con el asesor de protección de datos de la consulta</Pendiente>
+  </p>
+
+  <h2>Tus derechos</h2>
+  <p>
+    Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y
+    portabilidad dirigiéndote al responsable en la dirección o el correo indicados, acreditando tu identidad.
+  </p>
+  <p>
+    Si consideras que tus datos no se han tratado correctamente, puedes presentar una reclamación ante la
+    Agencia Española de Protección de Datos (<a href="https://www.aepd.es" rel="noopener">www.aepd.es</a>).
+  </p>
+
+  <h2>Cambios en esta política</h2>
+  <p>
+    Esta política se actualizará si cambia el funcionamiento del sitio (por ejemplo, si se añade un formulario
+    o una herramienta de analítica). La fecha de la última actualización figura al inicio de la página.
+  </p>
+</Legal>

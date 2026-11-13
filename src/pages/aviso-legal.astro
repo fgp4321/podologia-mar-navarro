@@ -1,0 +1,85 @@
+---
+import Legal from '../layouts/Legal.astro';
+import Pendiente from '../components/Pendiente.astro';
+import { negocio } from '../config/negocio';
+const d = negocio.direccion;
+---
+<Legal
+  titulo="Aviso legal"
+  descripcion="Datos identificativos del titular y condiciones de uso del sitio web de Podología Mar Navarro."
+  actualizado="noviembre de 2026"
+>
+  <h2>Datos identificativos</h2>
+  <p>
+    En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de
+    Comercio Electrónico (LSSI-CE), se informa de los datos del titular de este sitio web:
+  </p>
+  <dl>
+    <dt>Titular</dt>
+    <dd>{negocio.titular.nombreLegal}</dd>
+    <dt>Nombre comercial</dt>
+    <dd>{negocio.nombre}</dd>
+    <dt>NIF</dt>
+    <dd>{negocio.titular.nif}</dd>
+    <dt>Domicilio profesional</dt>
+    <dd>{d.calle}, {d.piso}. {d.codigoPostal} {d.localidad} ({d.provincia})</dd>
+    <dt>Teléfono</dt>
+    <dd>{negocio.telefono.visible}</dd>
+    <dt>Correo electrónico</dt>
+    <dd><Pendiente>dirección de correo electrónico de contacto</Pendiente></dd>
+    <dt>Profesión</dt>
+    <dd>Podóloga</dd>
+    <dt>Colegio profesional</dt>
+    <dd><Pendiente>nombre del colegio profesional</Pendiente></dd>
+    <dt>Número de colegiada</dt>
+    <dd>{negocio.numeroColegiada}</dd>
+    <dt>Título académico</dt>
+    <dd><Pendiente>título oficial y Estado en el que se expidió</Pendiente></dd>
+    <dt>Normas profesionales</dt>
+    <dd><Pendiente>referencia al código deontológico aplicable y dónde consultarlo</Pendiente></dd>
+  </dl>
+
+  <h2>Objeto del sitio web</h2>
+  <p>
+    Este sitio web tiene carácter informativo: presenta la consulta, sus servicios, su horario y sus datos de
+    contacto. No permite reservar citas en línea ni contratar servicios. Las citas se solicitan por teléfono
+    o WhatsApp.
+  </p>
+
+  <h2>Información de carácter sanitario</h2>
+  <p>
+    Los contenidos de este sitio son de carácter general y no sustituyen la valoración individual de un
+    profesional sanitario. No deben utilizarse para diagnosticar ni tratar un problema de salud. Ante cualquier
+    duda sobre tu caso, consulta con un profesional.
+  </p>
+
+  <h2>Condiciones de uso</h2>
+  <p>
+    El acceso al sitio es libre y gratuito. Quien lo utiliza se compromete a hacerlo conforme a la ley y a no
+    emplear sus contenidos con fines ilícitos o que perjudiquen al titular o a terceros.
+  </p>
+
+  <h2>Propiedad intelectual e industrial</h2>
+  <p>
+    Los textos, las fotografías, el logotipo y el diseño de este sitio pertenecen al titular o se utilizan con
+    autorización. No está permitida su reproducción, distribución o transformación sin consentimiento previo,
+    salvo en los casos que la ley permite.
+  </p>
+
+  <h2>Enlaces a sitios de terceros</h2>
+  <p>
+    Este sitio incluye enlaces a servicios externos (WhatsApp, Facebook y Google Maps). Al seguirlos se
+    abandona este sitio y se aplican las condiciones y políticas de privacidad de cada servicio, sobre las que
+    el titular no tiene control.
+  </p>
+
+  <h2>Responsabilidad</h2>
+  <p>
+    El titular procura que la información publicada esté actualizada y sea correcta, pero puede contener
+    errores u omisiones. El horario puede variar en festivos y periodos de vacaciones; se recomienda
+    confirmarlo por teléfono.
+  </p>
+
+  <h2>Legislación aplicable</h2>
+  <p>Este aviso legal se rige por la legislación española.</p>
+</Legal>
