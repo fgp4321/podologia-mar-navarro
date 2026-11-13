@@ -1,0 +1,38 @@
+---
+/**
+ * Iconos SVG en línea (sin peticiones de red ni JavaScript).
+ * Línea: Lucide (licencia ISC). Marcas: Simple Icons (CC0).
+ */
+import telefono from 'lucide-static/icons/phone.svg?raw';
+import mapa from 'lucide-static/icons/map-pin.svg?raw';
+import reloj from 'lucide-static/icons/clock.svg?raw';
+import menu from 'lucide-static/icons/menu.svg?raw';
+import cerrar from 'lucide-static/icons/x.svg?raw';
+import quiropodia from 'lucide-static/icons/scissors.svg?raw';
+import unas from 'lucide-static/icons/bandage.svg?raw';
+import biomecanica from 'lucide-static/icons/footprints.svg?raw';
+import especificos from 'lucide-static/icons/shield-plus.svg?raw';
+import integral from 'lucide-static/icons/hand-heart.svg?raw';
+import whatsapp from 'simple-icons/icons/whatsapp.svg?raw';
+import facebook from 'simple-icons/icons/facebook.svg?raw';
+
+const linea = { telefono, mapa, reloj, menu, cerrar, quiropodia, unas, biomecanica, especificos, integral };
+const marca = { whatsapp, facebook };
+
+interface Props { nombre: keyof typeof linea | keyof typeof marca; }
+const { nombre } = Astro.props;
+
+const esMarca = nombre in marca;
+const bruto = esMarca ? marca[nombre as keyof typeof marca] : linea[nombre as keyof typeof linea];
+// Nos quedamos con el contenido interior para controlar los atributos del <svg>.
+const interior = bruto
+  .replace(/<!--[\s\S]*?-->/g, '')
+  .replace(/<title>[\s\S]*?<\/title>/g, '')
+  .replace(/^[\s\S]*?<svg[^>]*>/, '')
+  .replace(/<\/svg>\s*$/, '');
+---
+{esMarca ? (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" set:html={interior} />
+) : (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={interior} />
+)}

@@ -1,0 +1,71 @@
+---
+import '@fontsource-variable/fraunces/soft.css';
+import '@fontsource-variable/source-sans-3';
+import '../styles/global.css';
+import Cabecera from '../components/Cabecera.astro';
+import Pie from '../components/Pie.astro';
+import BarraContacto from '../components/BarraContacto.astro';
+import { negocio } from '../config/negocio';
+import { textos, type Idioma } from '../i18n';
+
+interface Props {
+  idioma?: Idioma;
+  titulo?: string;
+  descripcion?: string;
+  /** Datos estructurados JSON-LD opcionales. */
+  jsonLd?: Record<string, unknown>;
+  noindex?: boolean;
+}
+const { idioma = 'es', titulo, descripcion, jsonLd, noindex = false } = Astro.props;
+const t = textos(idioma);
+const tituloFinal = titulo ? `${titulo} | ${negocio.nombre}` : t.meta.titulo;
+const descripcionFinal = descripcion ?? t.meta.descripcion;
+const canonica = new URL(Astro.url.pathname, Astro.site);
+const imagenOg = new URL('/og-image.jpg', Astro.site);
+---
+<!doctype html>
+<html lang={idioma === 'es' ? 'es-ES' : 'ca-ES-valencia'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloFinal}</title>
+    <meta name="description" content={descripcionFinal} />
+    <link rel="canonical" href={canonica} />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#794da3" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={negocio.nombre} />
+    <meta property="og:title" content={tituloFinal} />
+    <meta property="og:description" content={descripcionFinal} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={imagenOg} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.meta.ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    <!--
+      Google Search Console: pegar aquí la metaetiqueta de verificación cuando se dé de alta.
+      Analítica: no hay ninguna instalada. Si se añade, revisar antes la política de cookies.
+    -->
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">{t.comun.saltarAlContenido}</a>
+    <Cabecera idioma={idioma} />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Pie idioma={idioma} />
+    <BarraContacto idioma={idioma} />
+  </body>
+</html>

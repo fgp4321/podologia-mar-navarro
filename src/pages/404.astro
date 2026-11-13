@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { textos } from '../i18n';
+const t = textos('es').noEncontrada;
+---
+<Base titulo={t.titulo} noindex>
+  <section class="seccion">
+    <div class="contenedor" style="display:grid;gap:var(--e-3);justify-items:start">
+      <h1>{t.titulo}</h1>
+      <p class="entrada">{t.texto}</p>
+      <a class="boton boton-principal" href="/">{t.volver}</a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/images/logotipo-cabecera.png';
+import { negocio, enlaces } from '../config/negocio';
+import { textos, prefijo, type Idioma } from '../i18n';
+
+interface Props { idioma?: Idioma; }
+const { idioma = 'es' } = Astro.props;
+const t = textos(idioma);
+const base = prefijo(idioma);
+const d = negocio.direccion;
+const anio = new Date().getFullYear();
+---
+<footer class="pie">
+  <div class="contenedor pie-rejilla">
+    <div class="pie-marca">
+      <Image src={logo} alt={t.comun.logoAlt} width={208} height={80} densities={[1, 2]} />
+      <p>{t.pie.descripcion}</p>
+    </div>
+
+    <nav aria-labelledby="pie-secciones">
+      <h2 id="pie-secciones">{t.pie.navTitulo}</h2>
+      <ul>
+        {t.nav.enlaces.map((e) => <li><a href={`${base}/${e.href}`}>{e.texto}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2>{t.pie.contactoTitulo}</h2>
+      <address>
+        {d.calle}, {d.piso}<br />
+        {d.codigoPostal} {d.localidad} ({d.provincia})<br />
+        <a href={enlaces.tel}>{negocio.telefono.visible}</a><br />
+        <a href={negocio.facebookUrl} target="_blank" rel="noopener">
+          {t.contacto.facebook}<span class="solo-lectores"> {t.comun.nuevaPestana}</span>
+        </a>
+      </address>
+    </div>
+
+    <nav aria-labelledby="pie-legal">
+      <h2 id="pie-legal">{t.pie.legalTitulo}</h2>
+      <ul>
+        {t.pie.legal.map((e) => <li><a href={`${base}${e.href}`}>{e.texto}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <div class="contenedor">
+    <p class="copy">© {anio} {negocio.nombre}. {t.pie.derechos}</p>
+  </div>
+</footer>
+
+<style>
+  .pie { padding-block: var(--e-6) var(--e-4); background: var(--blanco); font-size: var(--t-s); }
+  .pie-rejilla { display: grid; gap: var(--e-4); }
+  .pie-marca { display: grid; gap: var(--e-2); justify-items: start; }
+  .pie-marca img { height: 5rem; width: auto; }
+  .pie-marca p { color: var(--berenjena-suave); }
+  h2 {
+    margin-bottom: 0.75rem;
+    font-family: var(--fuente-texto);
+    font-size: var(--t-s);
+    font-weight: 700;
+    letter-spacing: 0;
+    font-variation-settings: normal;
+  }
+  ul { display: grid; }
+  li a, address a { display: inline-block; padding-block: 0.6rem; }
+  address a { margin-top: 0.1rem; }
+  a { color: var(--berenjena); text-decoration-color: var(--lila-medio); }
+  a:hover { color: var(--violeta-oscuro); text-decoration-color: currentColor; }
+  address { line-height: 1.5; }
+  .copy {
+    margin-top: var(--e-5);
+    padding-top: var(--e-3);
+    border-top: 1px solid var(--lila-medio);
+    color: var(--berenjena-suave);
+    font-size: var(--t-xs);
+  }
+  @media (min-width: 40rem) { .pie-rejilla { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 62rem) { .pie-rejilla { grid-template-columns: 1.4fr 1fr 1.2fr 1fr; gap: var(--e-5); } }
+</style>

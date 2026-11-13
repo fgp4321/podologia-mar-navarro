@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import retrato from '../assets/images/mar-plantillas.jpg';
+import despacho from '../assets/images/mar-despacho.jpg';
+import { textos, type Idioma } from '../i18n';
+
+interface Props { idioma?: Idioma; }
+const { idioma = 'es' } = Astro.props;
+const t = textos(idioma).sobre;
+---
+<section class="seccion sobre" id="sobre-mar" aria-labelledby="sobre-titulo">
+  <div class="contenedor sobre-rejilla">
+    <div class="sobre-foto">
+      <Image
+        src={retrato}
+        alt={t.fotoAlt}
+        widths={[400, 640, 900]}
+        sizes="(min-width: 62rem) 30rem, 90vw"
+        quality={70}
+      />
+    </div>
+    <div class="sobre-texto">
+      <h2 id="sobre-titulo">{t.titulo}</h2>
+      <p class="entrada">{t.parrafos[0]}</p>
+      {t.parrafos.slice(1).map((p) => <p>{p}</p>)}
+      <Image
+        class="sobre-secundaria"
+        src={despacho}
+        alt={t.fotoSecundariaAlt}
+        widths={[480, 760, 1100]}
+        sizes="(min-width: 62rem) 36rem, 90vw"
+        quality={70}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .sobre { background: var(--lila); }
+  .sobre-rejilla { display: grid; gap: var(--e-5); }
+  .sobre-foto img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 14rem 14rem var(--radio-l) var(--radio-l);
+  }
+  .sobre-texto { display: grid; gap: var(--e-3); align-content: center; }
+  .sobre-texto p { max-width: 36rem; }
+  .sobre-texto .entrada { color: var(--berenjena); }
+  .sobre-texto :global(.sobre-secundaria) {
+    width: 100%;
+    max-width: 36rem;
+    margin-top: var(--e-2);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radio-l);
+  }
+  @media (min-width: 62rem) {
+    .sobre-rejilla { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: var(--e-6); align-items: center; }
+  }
+</style>

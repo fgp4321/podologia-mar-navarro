@@ -1,0 +1,109 @@
+---
+import Icono from './Icono.astro';
+import BotonesContacto from './BotonesContacto.astro';
+import { textos, type Idioma } from '../i18n';
+
+interface Props { idioma?: Idioma; }
+const { idioma = 'es' } = Astro.props;
+const t = textos(idioma).servicios;
+---
+<section class="seccion servicios" id="servicios" aria-labelledby="servicios-titulo">
+  <div class="contenedor">
+    <header class="servicios-cabecera">
+      <h2 id="servicios-titulo">{t.titulo}</h2>
+      <p class="entrada">{t.intro}</p>
+    </header>
+
+    <ul class="lista">
+      {t.categorias.map((c) => (
+        <li class="servicio" id={`servicio-${c.id}`}>
+          <span class="servicio-icono"><Icono nombre={c.icono} /></span>
+          <div class="servicio-titulo">
+            <h3>{c.titulo}</h3>
+            <p>{c.texto}</p>
+          </div>
+          <ul class="tratamientos">
+            {c.tratamientos.map((x) => <li>{x}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ul>
+
+    <div class="cierre">
+      <div>
+        <h3>{t.cierre}</h3>
+        <p>{t.cierreTexto}</p>
+      </div>
+      <BotonesContacto idioma={idioma} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .servicios-cabecera { display: grid; gap: var(--e-3); margin-bottom: var(--e-5); }
+
+  .lista { border-top: 1px solid var(--lila-medio); }
+  .servicio {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--e-2) var(--e-3);
+    padding-block: var(--e-4);
+    border-bottom: 1px solid var(--lila-medio);
+  }
+  .servicio-icono {
+    display: grid;
+    place-items: center;
+    width: 3.25rem; height: 3.25rem;
+    border-radius: 50%;
+    background: var(--lila);
+    color: var(--violeta-oscuro);
+  }
+  .servicio-icono :global(svg) { width: 1.6rem; height: 1.6rem; }
+  .servicio-titulo { display: grid; gap: 0.5rem; align-content: start; }
+  .servicio-titulo p { color: var(--berenjena-suave); max-width: 34rem; }
+
+  .tratamientos {
+    grid-column: 2;
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+  }
+  .tratamientos li {
+    position: relative;
+    padding-left: 1.25rem;
+    line-height: 1.4;
+  }
+  .tratamientos li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.55em;
+    width: 0.45rem; height: 0.45rem;
+    border-radius: 50%;
+    background: var(--violeta);
+  }
+
+  @media (min-width: 62rem) {
+    .servicio {
+      grid-template-columns: auto minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: var(--e-5);
+      padding-block: var(--e-5);
+      align-items: start;
+    }
+    .servicio-icono { margin-top: 0.15rem; }
+    .tratamientos { grid-column: auto; padding-top: 0.4rem; }
+  }
+
+  .cierre {
+    display: grid;
+    gap: var(--e-3);
+    margin-top: var(--e-5);
+    padding: var(--e-4);
+    border-radius: var(--radio-l);
+    background: var(--lila);
+  }
+  .cierre h3 { margin-bottom: 0.35rem; }
+  .cierre p { color: var(--berenjena-suave); }
+  @media (min-width: 62rem) {
+    .cierre { grid-template-columns: 1fr auto; align-items: center; padding: var(--e-4) var(--e-5); }
+  }
+</style>

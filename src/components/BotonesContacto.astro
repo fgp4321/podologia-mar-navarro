@@ -1,0 +1,28 @@
+---
+/** Par de CTA (llamar + WhatsApp) reutilizado en portada, servicios y contacto. */
+import Icono from './Icono.astro';
+import { negocio, enlaces } from '../config/negocio';
+import { textos, type Idioma } from '../i18n';
+
+interface Props { idioma?: Idioma; }
+const { idioma = 'es' } = Astro.props;
+const t = textos(idioma);
+---
+<div class="botones">
+  <a class="boton boton-principal" href={enlaces.tel}>
+    <Icono nombre="telefono" />
+    <span>{t.comun.llamarAl} {negocio.telefono.visible}</span>
+  </a>
+  <a class="boton boton-whatsapp" href={enlaces.whatsapp} target="_blank" rel="noopener">
+    <Icono nombre="whatsapp" />
+    <span>{t.comun.escribirWhatsapp}</span>
+    <span class="solo-lectores">{t.comun.nuevaPestana}</span>
+  </a>
+</div>
+
+<style>
+  .botones { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  @media (max-width: 29.99rem) {
+    .botones { flex-direction: column; }
+  }
+</style>

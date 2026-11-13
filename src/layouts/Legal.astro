@@ -1,0 +1,34 @@
+---
+import Base from './Base.astro';
+interface Props { titulo: string; descripcion: string; actualizado: string; }
+const { titulo, descripcion, actualizado } = Astro.props;
+---
+<Base titulo={titulo} descripcion={descripcion}>
+  <article class="legal contenedor">
+    <header>
+      <h1>{titulo}</h1>
+      <p class="fecha">Última actualización: {actualizado}</p>
+    </header>
+    <div class="prosa">
+      <slot />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .legal { padding-block: var(--e-6) var(--seccion); max-width: 46rem; }
+  h1 { font-size: var(--t-xl); }
+  .fecha { margin-top: var(--e-2); color: var(--berenjena-suave); font-size: var(--t-s); }
+  .prosa { margin-top: var(--e-5); }
+  .prosa :global(h2) { margin-top: var(--e-5); margin-bottom: var(--e-2); font-size: var(--t-l); }
+  .prosa :global(p), .prosa :global(ul), .prosa :global(dl) { margin-bottom: var(--e-2); }
+  .prosa :global(ul) { list-style: disc; padding-left: 1.25rem; }
+  .prosa :global(li) { margin-bottom: 0.4rem; }
+  .prosa :global(dl) { display: grid; gap: 0.35rem var(--e-3); }
+  .prosa :global(dt) { font-weight: 650; }
+  .prosa :global(dd) { margin: 0 0 0.5rem; }
+  @media (min-width: 40rem) {
+    .prosa :global(dl) { grid-template-columns: 14rem 1fr; }
+    .prosa :global(dd) { margin: 0; }
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import Portada from '../components/Portada.astro';
+import Servicios from '../components/Servicios.astro';
+import SobreMar from '../components/SobreMar.astro';
+import Consulta from '../components/Consulta.astro';
+import Contacto from '../components/Contacto.astro';
+import { negocio } from '../config/negocio';
+import { textos } from '../i18n';
+
+const idioma = 'es';
+const t = textos(idioma);
+const sitio = Astro.site!;
+const d = negocio.direccion;
+
+// Datos estructurados: solo información real y verificable (sin valoraciones ni reseñas).
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalClinic',
+  '@id': new URL('/#consulta', sitio).href,
+  name: negocio.nombre,
+  description: t.meta.descripcion,
+  url: sitio.href,
+  telephone: negocio.telefono.e164,
+  medicalSpecialty: 'https://schema.org/Podiatric',
+  image: new URL('/og-image.jpg', sitio).href,
+  logo: new URL('/icon-512.png', sitio).href,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${d.calle}, ${d.piso}`,
+    postalCode: d.codigoPostal,
+    addressLocality: d.localidad,
+    addressRegion: d.provincia,
+    addressCountry: d.pais,
+  },
+  areaServed: { '@type': 'City', name: d.localidad },
+  hasMap: negocio.mapsUrl,
+  sameAs: [negocio.facebookUrl],
+  openingHoursSpecification: negocio.horario.tramos.map((x) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: x.abre,
+    closes: x.cierra,
+  })),
+  employee: { '@type': 'Person', name: negocio.profesional, jobTitle: 'Podóloga' },
+  availableService: t.servicios.categorias.map((c) => ({ '@type': 'MedicalProcedure', name: c.titulo })),
+};
+---
+<Base idioma={idioma} jsonLd={jsonLd}>
+  <Portada idioma={idioma} />
+  <Servicios idioma={idioma} />
+  <SobreMar idioma={idioma} />
+  <Consulta idioma={idioma} />
+  <Contacto idioma={idioma} />
+</Base>

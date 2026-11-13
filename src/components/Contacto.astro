@@ -1,0 +1,147 @@
+---
+import Icono from './Icono.astro';
+import { negocio, enlaces } from '../config/negocio';
+import { textos, type Idioma } from '../i18n';
+
+interface Props { idioma?: Idioma; }
+const { idioma = 'es' } = Astro.props;
+const tt = textos(idioma);
+const t = tt.contacto;
+const d = negocio.direccion;
+const tramos = negocio.horario.tramos;
+---
+<section class="seccion contacto sobre-oscuro" id="contacto" aria-labelledby="contacto-titulo">
+  <span class="adorno" aria-hidden="true"></span>
+  <div class="contenedor">
+    <header class="contacto-cabecera">
+      <h2 id="contacto-titulo">{t.titulo}</h2>
+      <p class="entrada">{t.intro}</p>
+    </header>
+
+    <div class="columnas">
+      <div class="bloque">
+        <h3><Icono nombre="reloj" />{t.horarioTitulo}</h3>
+        <table>
+          <caption class="solo-lectores">{t.horarioResumen}</caption>
+          <tbody>
+            <tr>
+              <th scope="row">{t.dias.laborables}</th>
+              <td>
+                {tramos.map((x, i) => (
+                  <span class="tramo"><time>{x.abre}</time>–<time>{x.cierra}</time>{i < tramos.length - 1 && <span class="solo-lectores"> {t.y} </span>}</span>
+                ))}
+              </td>
+            </tr>
+            <tr class="cerrado"><th scope="row">{t.dias.sabado}</th><td>{t.cerrado}</td></tr>
+            <tr class="cerrado"><th scope="row">{t.dias.domingo}</th><td>{t.cerrado}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bloque">
+        <h3><Icono nombre="mapa" />{t.dondeTitulo}</h3>
+        <address>
+          {d.calle}<br />
+          {d.piso}<br />
+          {d.codigoPostal} {d.localidad} ({d.provincia})
+        </address>
+        <p class="indicacion">{t.indicacion}</p>
+        <a class="boton boton-linea" href={negocio.mapsUrl} target="_blank" rel="noopener">
+          <Icono nombre="mapa" />{t.comoLlegar}
+          <span class="solo-lectores">{tt.comun.nuevaPestana}</span>
+        </a>
+      </div>
+
+      <div class="bloque">
+        <h3><Icono nombre="telefono" />{t.contactoTitulo}</h3>
+        <p class="telefono">
+          <span class="solo-lectores">{t.telefonoEtiqueta}: </span>
+          <a href={enlaces.tel}>{negocio.telefono.visible}</a>
+        </p>
+        <div class="acciones">
+          <a class="boton boton-principal" href={enlaces.tel}>
+            <Icono nombre="telefono" />{tt.comun.llamar}
+          </a>
+          <a class="boton boton-whatsapp" href={enlaces.whatsapp} target="_blank" rel="noopener">
+            <Icono nombre="whatsapp" />{tt.comun.whatsapp}
+            <span class="solo-lectores">{tt.comun.nuevaPestana}</span>
+          </a>
+        </div>
+        <a class="facebook" href={negocio.facebookUrl} target="_blank" rel="noopener">
+          <Icono nombre="facebook" />{t.facebookTexto}
+          <span class="solo-lectores">{tt.comun.nuevaPestana}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contacto {
+    position: relative;
+    overflow: clip;
+    background: var(--berenjena);
+    color: var(--blanco);
+  }
+  .adorno {
+    position: absolute;
+    right: -8rem; top: -10rem;
+    width: 26rem; aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.05);
+  }
+  .contacto .contenedor { position: relative; }
+  .contacto-cabecera { display: grid; gap: var(--e-3); margin-bottom: var(--e-5); }
+  .contacto .entrada { color: #d9cfe6; }
+
+  .columnas { display: grid; gap: var(--e-5); }
+  .bloque { display: grid; gap: var(--e-2); align-content: start; justify-items: start; }
+  .bloque h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding-bottom: var(--e-2);
+    border-bottom: 1px solid rgb(255 255 255 / 0.2);
+  }
+  .bloque h3 :global(svg) { width: 1.35rem; height: 1.35rem; color: #c9b3e3; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 0.5rem 0; text-align: left; vertical-align: top; font-weight: 400; }
+  td { text-align: right; font-variant-numeric: tabular-nums; }
+  tr + tr th, tr + tr td { border-top: 1px solid rgb(255 255 255 / 0.12); }
+  .tramo { display: block; font-weight: 600; }
+  .cerrado th, .cerrado td { color: #c8bcd6; }
+
+  address { font-size: var(--t-l); line-height: 1.45; }
+  .indicacion { color: #d9cfe6; font-size: var(--t-s); }
+
+  .telefono a {
+    font-family: var(--fuente-titulos);
+    font-size: var(--t-xl);
+    font-variation-settings: 'SOFT' 100, 'opsz' 100;
+    color: var(--blanco);
+    text-decoration: none;
+    line-height: 1.1;
+    display: inline-block;
+    padding-block: 0.25rem;
+  }
+  .telefono a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+  .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .facebook {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    color: var(--blanco);
+  }
+  .facebook :global(svg) { width: 1.25rem; height: 1.25rem; }
+  .facebook:hover { color: #e6daf3; }
+
+  @media (min-width: 62rem) {
+    .columnas { grid-template-columns: repeat(3, 1fr); gap: var(--e-6); }
+  }
+  @media (min-width: 48rem) and (max-width: 61.99rem) {
+    .columnas { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import despacho from '../assets/images/despacho.jpg';
+import biomecanica from '../assets/images/sala-biomecanica.jpg';
+import quiropodia from '../assets/images/quiropodia.jpg';
+import espera from '../assets/images/sala-espera.jpg';
+import { textos, type Idioma } from '../i18n';
+
+interface Props { idioma?: Idioma; }
+const { idioma = 'es' } = Astro.props;
+const t = textos(idioma).consulta;
+const imagenes = { despacho, biomecanica, quiropodia, espera };
+---
+<section class="seccion" id="consulta" aria-labelledby="consulta-titulo">
+  <div class="contenedor">
+    <header class="consulta-cabecera">
+      <h2 id="consulta-titulo">{t.titulo}</h2>
+      <p class="entrada">{t.intro}</p>
+    </header>
+    <ul class="galeria">
+      {t.fotos.map((f) => (
+        <li class={`foto foto-${f.id}`}>
+          <figure>
+            <Image
+              src={imagenes[f.id]}
+              alt={f.alt}
+              widths={[400, 700, 1000]}
+              sizes="(min-width: 48rem) 50vw, 92vw"
+              quality={68}
+            />
+            <figcaption>{f.pie}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .consulta-cabecera { display: grid; gap: var(--e-3); margin-bottom: var(--e-5); }
+  .galeria { display: grid; gap: var(--e-3); }
+  figure { margin: 0; display: grid; gap: 0.6rem; }
+  figure :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radio-l);
+    background: var(--lila);
+  }
+  figcaption { color: var(--berenjena-suave); font-size: var(--t-s); }
+
+  @media (min-width: 48rem) {
+    .galeria { grid-template-columns: repeat(12, 1fr); gap: var(--e-4) var(--e-3); }
+    .foto-despacho, .foto-espera { grid-column: span 7; }
+    .foto-biomecanica, .foto-quiropodia { grid-column: span 5; }
+    figure :global(img) { aspect-ratio: auto; height: clamp(16rem, 30vw, 24rem); }
+  }
+</style>

@@ -1,0 +1,11 @@
+---
+/**
+ * Marca visible para datos legales que el titular aún debe facilitar o validar.
+ * Antes de publicar no debe quedar ninguno: `npm run pendientes` los lista.
+ */
+---
+<mark class="pendiente">[PENDIENTE: <slot />]</mark>
+
+<style>
+  .pendiente { padding: 0.05em 0.35em; border-radius: 4px; background: #ffe9a8; color: #3d2f00; }
+</style>

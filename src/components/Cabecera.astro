@@ -1,0 +1,137 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/images/logotipo-cabecera.png';
+import Icono from './Icono.astro';
+import { negocio, enlaces } from '../config/negocio';
+import { textos, prefijo, type Idioma } from '../i18n';
+
+interface Props { idioma?: Idioma; }
+const { idioma = 'es' } = Astro.props;
+const t = textos(idioma);
+const inicio = `${prefijo(idioma)}/`;
+// En las páginas interiores los enlaces de sección deben volver a la portada.
+const esPortada = Astro.url.pathname === inicio;
+const destino = (ancla: string) => (esPortada ? ancla : `${inicio}${ancla}`);
+---
+<header class="cabecera">
+  <div class="contenedor cabecera-fila">
+    <a class="marca" href={inicio} aria-label={`${t.comun.logoAlt}. ${t.comun.inicio}`}>
+      <Image src={logo} alt="" width={176} height={68} loading="eager" densities={[1, 2, 3]} />
+    </a>
+
+    <nav class="nav" id="menu" aria-label={t.nav.etiqueta}>
+      <ul>
+        {t.nav.enlaces.map((e) => (
+          <li><a href={destino(e.href)}>{e.texto}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <a class="boton boton-principal cabecera-llamar" href={enlaces.tel}>
+      <Icono nombre="telefono" />
+      <span><span class="solo-lectores">{t.comun.llamarAl} </span>{negocio.telefono.visible}</span>
+    </a>
+
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu"
+      data-abrir={t.comun.abrirMenu} data-cerrar={t.comun.cerrarMenu}>
+      <span class="solo-lectores" data-etiqueta>{t.comun.abrirMenu}</span>
+      <span class="icono-abrir"><Icono nombre="menu" /></span>
+      <span class="icono-cerrar"><Icono nombre="cerrar" /></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  // Menú móvil: única pieza de JavaScript del sitio.
+  const boton = document.querySelector<HTMLButtonElement>('.menu-boton');
+  const menu = document.getElementById('menu');
+  const etiqueta = boton?.querySelector('[data-etiqueta]');
+
+  function alternar(abrir: boolean) {
+    if (!boton || !menu) return;
+    boton.setAttribute('aria-expanded', String(abrir));
+    menu.classList.toggle('abierto', abrir);
+    if (etiqueta) etiqueta.textContent = (abrir ? boton.dataset.cerrar : boton.dataset.abrir) ?? '';
+  }
+
+  boton?.addEventListener('click', () => alternar(boton.getAttribute('aria-expanded') !== 'true'));
+  menu?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) alternar(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && boton?.getAttribute('aria-expanded') === 'true') {
+      alternar(false);
+      boton.focus();
+    }
+  });
+</script>
+
+<style>
+  .cabecera {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--blanco);
+    border-bottom: 1px solid var(--lila);
+  }
+  .cabecera-fila {
+    display: flex;
+    align-items: center;
+    gap: var(--e-3);
+    min-height: var(--cabecera);
+  }
+  .marca { display: block; flex: none; margin-right: auto; border-radius: 6px; }
+  .marca img { height: 4.25rem; width: auto; }
+  @media (max-width: 29.99rem) { .marca img { height: 3.75rem; } }
+
+  .nav ul { display: flex; gap: var(--e-4); }
+  .nav a {
+    display: block;
+    padding-block: 0.5rem;
+    color: var(--berenjena);
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+  }
+  .nav a:hover { border-bottom-color: var(--violeta); }
+
+  .cabecera-llamar { min-height: 2.75rem; padding: 0.5rem 1.15rem; font-size: var(--t-s); }
+  .menu-boton { display: none; }
+
+  @media (max-width: 61.99rem) {
+    .menu-boton {
+      display: grid;
+      place-items: center;
+      width: 3rem; height: 3rem;
+      margin-right: -0.5rem;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--berenjena);
+      cursor: pointer;
+    }
+    .menu-boton :global(svg) { width: 1.75rem; height: 1.75rem; }
+    .icono-abrir, .icono-cerrar { display: grid; grid-area: 1 / 1; }
+    .icono-cerrar { display: none; }
+    .menu-boton[aria-expanded='true'] .icono-abrir { display: none; }
+    .menu-boton[aria-expanded='true'] .icono-cerrar { display: grid; }
+
+    .nav {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: var(--blanco);
+      border-bottom: 1px solid var(--lila-medio);
+      box-shadow: 0 1.5rem 2rem -1.5rem rgb(43 28 58 / 0.25);
+    }
+    .nav.abierto { display: block; }
+    .nav ul { flex-direction: column; gap: 0; padding: var(--e-1) var(--margen) var(--e-3); }
+    .nav li + li { border-top: 1px solid var(--lila); }
+    .nav a { padding-block: 1rem; font-size: var(--t-l); border-bottom: 0; }
+  }
+
+  /* En móvil el teléfono vive en la barra inferior fija. */
+  @media (max-width: 47.99rem) {
+    .cabecera-llamar { display: none; }
+  }
+</style>

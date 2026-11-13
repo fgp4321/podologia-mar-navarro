@@ -1,0 +1,41 @@
+---
+/**
+ * Barra fija de contacto, solo en móvil: los dos CTA quedan en la zona del pulgar.
+ * Sustituye al típico botón flotante de WhatsApp, que tapa contenido.
+ */
+import Icono from './Icono.astro';
+import { enlaces } from '../config/negocio';
+import { textos, type Idioma } from '../i18n';
+
+interface Props { idioma?: Idioma; }
+const { idioma = 'es' } = Astro.props;
+const t = textos(idioma);
+---
+<div class="barra">
+  <a class="boton boton-principal" href={enlaces.tel}>
+    <Icono nombre="telefono" />{t.comun.llamar}
+  </a>
+  <a class="boton boton-whatsapp" href={enlaces.whatsapp} target="_blank" rel="noopener">
+    <Icono nombre="whatsapp" />{t.comun.whatsapp}
+    <span class="solo-lectores">{t.comun.nuevaPestana}</span>
+  </a>
+</div>
+
+<style>
+  .barra { display: none; }
+  @media (max-width: 47.99rem) {
+    .barra {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 40;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.625rem;
+      padding: 0.625rem var(--margen) calc(0.625rem + env(safe-area-inset-bottom));
+      background: var(--blanco);
+      border-top: 1px solid var(--lila-medio);
+    }
+    .barra .boton { min-height: 3.25rem; padding-inline: 0.75rem; }
+  }
+  @media print { .barra { display: none; } }
+</style>

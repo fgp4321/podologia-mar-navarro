@@ -1,0 +1,133 @@
+---
+import { Image } from 'astro:assets';
+import foto from '../assets/images/mar-consulta.jpg';
+import BotonesContacto from './BotonesContacto.astro';
+import { textos, type Idioma } from '../i18n';
+
+interface Props { idioma?: Idioma; }
+const { idioma = 'es' } = Astro.props;
+const t = textos(idioma).portada;
+---
+<section class="portada">
+  <div class="contenedor portada-rejilla">
+    <div class="portada-texto">
+      <h1>{t.titulo}</h1>
+      <p class="entrada">{t.texto}</p>
+      <BotonesContacto idioma={idioma} />
+      <p class="nota">{t.nota}</p>
+    </div>
+
+    <div class="portada-foto">
+      <span class="circulo circulo-gris" aria-hidden="true"></span>
+      <span class="circulo circulo-violeta" aria-hidden="true"></span>
+      <div class="marco">
+      <Image
+        src={foto}
+        alt={t.fotoAlt}
+        widths={[360, 560, 760, 1060]}
+        sizes="(min-width: 62rem) 34rem, (min-width: 48rem) 60vw, 86vw"
+        loading="eager"
+        fetchpriority="high"
+        quality={72}
+      />
+      </div>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <ul class="datos">
+      {t.datos.map((d) => (
+        <li>
+          <strong>{d.valor}</strong>
+          <span>{d.texto}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .portada {
+    padding-block: clamp(2.5rem, 1.5rem + 5vw, 5.5rem) var(--e-6);
+    background: var(--blanco);
+    overflow: clip;
+  }
+  .portada-rejilla {
+    display: grid;
+    gap: var(--e-5);
+    align-items: center;
+  }
+  .portada-texto { display: grid; gap: var(--e-3); justify-items: start; }
+  .portada-texto h1 { max-width: 11ch; }
+  .nota { color: var(--berenjena-suave); font-size: var(--t-s); }
+
+  /* El motivo de los círculos procede del logotipo. */
+  .portada-foto {
+    position: relative;
+    width: min(100%, 34rem);
+    margin-inline: auto;
+    aspect-ratio: 1;
+  }
+  .marco {
+    position: relative;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--lila);
+  }
+  .marco img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 30% 50%;
+    transform: scale(1.22);
+    transform-origin: 22% 62%;
+  }
+  .circulo { position: absolute; border-radius: 50%; }
+  .circulo-gris { width: 34%; aspect-ratio: 1; right: -9%; top: -4%; background: var(--gris-logo); }
+  .circulo-violeta { width: 15%; aspect-ratio: 1; left: 2%; bottom: 3%; background: var(--violeta); z-index: 1; }
+
+  .datos {
+    display: grid;
+    margin-top: var(--e-6);
+    border-top: 1px solid var(--lila-medio);
+  }
+  .datos li {
+    display: grid;
+    gap: 0.15rem;
+    padding-block: var(--e-3);
+    border-bottom: 1px solid var(--lila-medio);
+  }
+  .datos strong {
+    font-family: var(--fuente-titulos);
+    font-size: var(--t-l);
+    font-weight: 400;
+    font-variation-settings: 'SOFT' 100, 'opsz' 60;
+    color: var(--violeta-oscuro);
+  }
+  .datos span { color: var(--berenjena-suave); font-size: var(--t-s); }
+
+  @media (min-width: 48rem) {
+    .datos { grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--lila-medio); }
+    .datos li { border-bottom: 0; padding-inline: var(--e-4); }
+    .datos li:first-child { padding-left: 0; }
+    .datos li + li { border-left: 1px solid var(--lila-medio); }
+  }
+  @media (min-width: 62rem) {
+    .portada-rejilla { grid-template-columns: 1.05fr 0.95fr; gap: var(--e-6); }
+    .portada-foto { margin-inline: 0 auto; justify-self: end; }
+  }
+
+  /* Única animación de entrada del sitio. */
+  @media (prefers-reduced-motion: no-preference) {
+    .portada-texto > *, .portada-foto {
+      animation: aparecer 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+    .portada-texto > :nth-child(2) { animation-delay: 0.08s; }
+    .portada-texto > :nth-child(3) { animation-delay: 0.16s; }
+    .portada-texto > :nth-child(4) { animation-delay: 0.22s; }
+    .portada-foto { animation-delay: 0.12s; }
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(0.75rem); }
+    }
+  }
+</style>
