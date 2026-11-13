@@ -1,8 +1,9 @@
 ---
 import Legal from '../layouts/Legal.astro';
-import Pendiente from '../components/Pendiente.astro';
 import { negocio } from '../config/negocio';
 const d = negocio.direccion;
+const ti = negocio.titular;
+const h = negocio.alojamiento;
 ---
 <Legal
   titulo="Política de privacidad"
@@ -25,7 +26,7 @@ const d = negocio.direccion;
     <dt>Teléfono</dt>
     <dd>{negocio.telefono.visible}</dd>
     <dt>Correo electrónico</dt>
-    <dd><Pendiente>dirección de correo electrónico para ejercer derechos</Pendiente></dd>
+    <dd><a href={`mailto:${ti.email}`}>{ti.email}</a></dd>
   </dl>
 
   <h2>Qué datos se tratan a través de este sitio web</h2>
@@ -36,12 +37,13 @@ const d = negocio.direccion;
   <p>
     Como cualquier sitio web, el proveedor de alojamiento puede registrar datos técnicos de las conexiones
     (como la dirección IP, la fecha y la página solicitada) para garantizar la seguridad y el funcionamiento
-    del servicio. <Pendiente>nombre del proveedor de alojamiento y enlace a su política de privacidad</Pendiente>
+    del servicio. El sitio está alojado en {h.nombre} ({h.pais}), que actúa como proveedor de servicios y trata
+    esos datos conforme a su <a href={h.privacidadUrl} rel="noopener">política de privacidad</a>.
   </p>
 
-  <h2>Si contactas por teléfono o WhatsApp</h2>
+  <h2>Si contactas por teléfono, WhatsApp o correo electrónico</h2>
   <p>
-    Cuando llamas o escribes por WhatsApp, los datos que facilitas (como tu nombre, tu número de teléfono y el
+    Cuando llamas o escribes por WhatsApp o por correo electrónico, los datos que facilitas (como tu nombre, tu número de teléfono y el
     motivo de la consulta) se utilizan para atender tu petición y gestionar tu cita.
   </p>
   <ul>
@@ -53,7 +55,6 @@ const d = negocio.direccion;
     <li>
       <strong>Conservación:</strong> el tiempo necesario para atender la petición y, cuando exista relación
       asistencial, durante los plazos que establece la normativa sanitaria.
-      <Pendiente>confirmar plazos de conservación con el asesor de protección de datos</Pendiente>
     </li>
     <li>
       <strong>Destinatarios:</strong> no se ceden datos a terceros salvo obligación legal. WhatsApp es un
@@ -68,7 +69,6 @@ const d = negocio.direccion;
   <p>
     El tratamiento de los datos de salud de los pacientes en la consulta (historia clínica) se rige por la
     información que se facilita en la propia consulta.
-    <Pendiente>validar este apartado con el asesor de protección de datos de la consulta</Pendiente>
   </p>
 
   <h2>Tus derechos</h2>

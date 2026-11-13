@@ -35,6 +35,17 @@ export const negocio = {
   titular: {
     nombreLegal: 'María del Mar Navarro Sánchez',
     nif: '47061803P',
+    /** Solo se muestra en las páginas legales (no en la portada, para limitar el spam). */
+    email: 'podmarvic@gmail.com',
+    colegio: 'Ilustre Colegio Oficial de Podología de la Comunidad Valenciana (ICOPCV)',
+    titulo: 'Grado en Podología',
+    tituloExpedidoEn: 'España',
+  },
+  /** Proveedor de alojamiento previsto. Si cambia, basta con editar estos tres datos. */
+  alojamiento: {
+    nombre: 'Vercel Inc.',
+    pais: 'Estados Unidos',
+    privacidadUrl: 'https://vercel.com/legal/privacy-policy',
   },
 } as const;
 

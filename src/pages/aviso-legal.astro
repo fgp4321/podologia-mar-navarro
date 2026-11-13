@@ -1,8 +1,8 @@
 ---
 import Legal from '../layouts/Legal.astro';
-import Pendiente from '../components/Pendiente.astro';
 import { negocio } from '../config/negocio';
 const d = negocio.direccion;
+const ti = negocio.titular;
 ---
 <Legal
   titulo="Aviso legal"
@@ -26,17 +26,21 @@ const d = negocio.direccion;
     <dt>Teléfono</dt>
     <dd>{negocio.telefono.visible}</dd>
     <dt>Correo electrónico</dt>
-    <dd><Pendiente>dirección de correo electrónico de contacto</Pendiente></dd>
+    <dd><a href={`mailto:${ti.email}`}>{ti.email}</a></dd>
     <dt>Profesión</dt>
     <dd>Podóloga</dd>
     <dt>Colegio profesional</dt>
-    <dd><Pendiente>nombre del colegio profesional</Pendiente></dd>
+    <dd>{ti.colegio}</dd>
     <dt>Número de colegiada</dt>
     <dd>{negocio.numeroColegiada}</dd>
     <dt>Título académico</dt>
-    <dd><Pendiente>título oficial y Estado en el que se expidió</Pendiente></dd>
+    <dd>{ti.titulo}, título oficial expedido en {ti.tituloExpedidoEn}</dd>
     <dt>Normas profesionales</dt>
-    <dd><Pendiente>referencia al código deontológico aplicable y dónde consultarlo</Pendiente></dd>
+    <dd>
+      El ejercicio de la profesión se rige por la Ley 44/2003, de ordenación de las profesiones sanitarias, y
+      por los estatutos y el código deontológico del colegio profesional indicado, que pueden consultarse a
+      través del propio colegio.
+    </dd>
   </dl>
 
   <h2>Objeto del sitio web</h2>
