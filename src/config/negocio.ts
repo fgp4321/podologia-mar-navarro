@@ -38,7 +38,7 @@ export const negocio = {
     /** Solo se muestra en las páginas legales (no en la portada, para limitar el spam). */
     email: 'podmarvic@gmail.com',
     colegio: 'Ilustre Colegio Oficial de Podología de la Comunidad Valenciana (ICOPCV)',
-    titulo: 'Grado en Podología',
+    titulo: 'Diplomatura en Podología',
     tituloExpedidoEn: 'España',
   },
   /** Proveedor de alojamiento previsto. Si cambia, basta con editar estos tres datos. */

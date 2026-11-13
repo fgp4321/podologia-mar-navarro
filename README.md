@@ -92,7 +92,6 @@ Las cabeceras de seguridad y de caché están en `vercel.json`.
 
 - [ ] Confirmar el dominio en `src/config/site-url.mjs`.
 - [ ] Confirmar el plan de Vercel (ver nota en «Despliegue»).
-- [ ] Confirmar la denominación exacta del título académico (Grado o Diplomatura en Podología).
 - [ ] Comprobar que no queda nada marcado como PENDIENTE (`npm run pendientes`).
 - [ ] Revisión de los textos legales por un profesional (son un borrador técnico, no asesoramiento jurídico).
 - [ ] Revisión por parte de Mar de los textos de servicios y de «Sobre Mar».
